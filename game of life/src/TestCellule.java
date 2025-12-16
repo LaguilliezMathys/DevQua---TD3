@@ -17,7 +17,7 @@ public class TestCellule {
     }
 
     @Test
-    public void CellsAlive(){
+    public void CellsIsAlive(){
 
         Cellule cellule = new Cellule();
         cellule.initiateLoop();
@@ -36,6 +36,58 @@ public class TestCellule {
         }
 
 
+        @Test
+        public void cellNumberOfNeighbors(){
+            Cellule cellule = new Cellule();
+            cellule.initiateLoop();
+            boolean[][] grid = cellule.gridState();
+
+            cellule.newCells(2, 2);
+            cellule.newCells(2, 3);
+            cellule.newCells(1, 3);
+            cellule.newCells(1,1);
+            
+
+
+            assertEquals(3, cellule.neighborsAlive(2, 2));
+
+            cellule.newCells(1,2 );
+            assertEquals(4, cellule.neighborsAlive(2, 2));
+
+            cellule.newCells(10, 11);
+            assertEquals(4, cellule.neighborsAlive(2, 2));
+        }
+
+        @Test
+        public void cellNumberOfNeighborsNearOOB(){
+         Cellule cellule = new Cellule();
+            cellule.initiateLoop();
+            boolean[][] grid = cellule.gridState();
+
+            cellule.newCells(0, 0);
+            cellule.newCells(0, 1);
+            cellule.newCells(1, 0);
+
+            assertEquals(2, cellule.neighborsAlive(0, 0)); 
+
+            cellule.newCells(99, 99);
+            cellule.newCells(98, 99);
+            cellule.newCells(99, 98);
+            assertEquals(2, cellule.neighborsAlive(99, 99)); 
+
+        }
+
+        @Test 
+        public void cellAloneDies(){
+            Cellule cellule = new Cellule();
+            cellule.initiateLoop();
+            boolean[][] grid = cellule.gridState();
+    
+            cellule.newCells(50, 50);
+            cellule.tickUpdate();
+    
+            assertFalse(grid[50][50]);
+        }
 
 
 
